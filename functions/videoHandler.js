@@ -32,7 +32,7 @@ exports.handler = async (event) => {
     if (videoUrl) {
       return {
         statusCode: 200,
-        body: JSON.stringify({ videoUrl }),
+        body: JSON.stringify({ videoUrl,videoName }),
         headers: { 'Content-Type': 'application/json' },
       };
     } else {

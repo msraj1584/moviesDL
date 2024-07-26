@@ -41,7 +41,7 @@ exports.handler = async (event) => {
         // Read the HTML template
         const templatePath = path.join(__dirname, 'videoTemplate.html'); // Corrected path
         console.log('Template path:', templatePath);
-        let html = await fs.readFile(templatePath, 'utf8');
+        let html = await fs.readFile('/videoTemplate.html', 'utf8');
         
         // Replace placeholders with actual values
         html = html.replace('{{videoName}}', videoName).replace('{{videoUrl}}', videoUrl);

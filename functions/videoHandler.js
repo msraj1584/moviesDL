@@ -63,16 +63,50 @@ exports.handler = async (event) => {
           },
         };
       } else {
-      return {
-        statusCode: 404,
-        body: 'Video not found',
-      };
-    }
-  } catch (error) {
+        return {
+          statusCode: 404,
+          body: `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>M S RAJ Movies</title>
+              <link rel="stylesheet" href="/styles.css">
+            </head>
+            <body>
+              <h1>Video Not Found</h1>
+              <p>The video with the requested ID was not found.</p>
+            </body>
+            </html>
+          `,
+          headers: {
+            'Content-Type': 'text/html',
+          },
+        };
+      }
+    } catch (error) {
     console.error('Error fetching video:', error);
     return {
       statusCode: 500,
-      body: 'Internal server error',
+      body: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>M S RAJ Movies</title>
+          <link rel="stylesheet" href="/styles.css">
+        </head>
+        <body>
+          <h1>Internal Server Error</h1>
+          <p>There was an error fetching the video. Please try again later.</p>
+        </body>
+        </html>
+      `,
+      headers: {
+        'Content-Type': 'text/html',
+      },
     };
   }
 };

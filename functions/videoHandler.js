@@ -5,8 +5,8 @@ const username = process.env.SEEDR_USERNAME;
 const password = process.env.SEEDR_PASSWORD;
 
 exports.handler = async (event) => {
-  const videoId = event.path.split('/').pop(); // Extract videoId from URL
-  //const videoId = event.queryStringParameters.id; // Extract videoId from query parameters
+  //const videoId = event.path.split('/').pop(); // Extract videoId from URL
+  const videoId = event.queryStringParameters.id; // Extract videoId from query parameters
   try {
     // Login to Seedr
     await seedr.login(username, password);

@@ -8,7 +8,7 @@ const password = process.env.SEEDR_PASSWORD;
 
 const getTemplate = async (templateName, replacements = {}) => {
   try {
-    let template = await fs.readFile(path.join(__dirname, templateName), 'utf8');
+    let template = await fs.readFile(path.join(__dirname, '../public', templateName), 'utf8');
     for (const [key, value] of Object.entries(replacements)) {
       const placeholder = `{{${key}}}`;
       template = template.replace(new RegExp(placeholder, 'g'), value);
@@ -21,15 +21,12 @@ const getTemplate = async (templateName, replacements = {}) => {
 };
 
 exports.handler = async (event) => {
-  const videoId = event.queryStringParameters.id; // Extract videoId from query parameters
+  const videoId = event.queryStringParameters.id;
 
   try {
-    // Login to Seedr
     await seedr.login(username, password);
-
-    // Fetch video details from Seedr
     const videoContents = await seedr.getVideos();
-    
+
     let videoUrl = null;
     let videoName = null;
 
@@ -37,19 +34,18 @@ exports.handler = async (event) => {
       for (const vide of videoArray) {
         if (vide && vide.id && vide.name && vide.id.toString() === videoId) {
           try {
-            const downloadLink = await seedr.getFile(vide.id); // Fetch the download link
+            const downloadLink = await seedr.getFile(vide.id);
             videoUrl = downloadLink.url;
             videoName = vide.name;
-            break; // Exit loop once the video is found
+            break;
           } catch (error) {
             console.error(`Failed to fetch download link for video ID ${vide.id}:`, error);
           }
         }
       }
-      if (videoUrl) break; // Exit outer loop if video is found
+      if (videoUrl) break;
     }
-    
-    // Return the video URL or a 404 response if not found
+
     if (videoUrl) {
       const html = await getTemplate('movie.html', { videoName, videoUrl });
       return {

@@ -43,8 +43,8 @@ exports.handler = async (event) => {
             <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>${videoName}</title>
-              <link rel="stylesheet" href="public/styles.css">
+              <title>M S RAJ Movies</title>
+              <link rel="stylesheet" href="/styles.css">
             </head>
             <body>
                <h1>M S RAJ Movies</h1>

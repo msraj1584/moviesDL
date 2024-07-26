@@ -90,7 +90,7 @@
                         const shareButton = document.createElement('button');
                         shareButton.textContent = 'Share';
                         shareButton.onclick = () => {
-                            const videoUrl = `https://msrajmovies.netlify.app/video/${video.id}`;
+                            const videoUrl = `https://msrajmovies.netlify.app/movie?:${video.id}`;
                             navigator.clipboard.writeText(videoUrl)
                                 .then(() => {
                                     responseMessage.textContent = 'Share link copied to clipboard!';
@@ -124,7 +124,7 @@
 
                         // Append elements to the list item
                         listItem.appendChild(link);
-                        listItem.appendChild(videoPlay);
+                        //listItem.appendChild(videoPlay);
                         listItem.appendChild(idSpan);
                         listItem.appendChild(copyButton);
                         listItem.appendChild(shareButton);

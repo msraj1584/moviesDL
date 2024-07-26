@@ -42,7 +42,6 @@
               // Update video name and download link
               videoName.textContent = data.videoName || 'Untitled Video'; // Provide a fallback name
               downloadLink.href = data.videoUrl;
-              console.log(data);
             } else {
               console.error('Error:', data.error);
             }

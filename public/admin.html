@@ -3,39 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seedr Videos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        input, button {
-            margin: 5px 0;
-            padding: 10px;
-            font-size: 16px;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 20px;
-        }
-        .video-player {
-            display: block;
-            margin: 10px 0;
-        }
-        .response-message {
-            margin: 20px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-    </style>
+    <title>M S RAJ Movies Admin</title>
+    <link rel="stylesheet" href="/admin-styles.css">
     <script>
         async function fetchVideos() {
             const videoList = document.getElementById('video-list');
@@ -50,6 +19,8 @@
                     // No videos found, display a message
                     videoList.textContent = 'No files found';
                 } else {
+                      // Get the base URL dynamically
+                const baseUrl = window.location.origin;
                     // Process and display each video
                     videos.forEach(video => {
                         const listItem = document.createElement('li');
@@ -90,7 +61,8 @@
                         const shareButton = document.createElement('button');
                         shareButton.textContent = 'Share';
                         shareButton.onclick = () => {
-                            const videoUrl = `https://msrajmovies.netlify.app/movie?id=${video.id}`;
+                            //const videoUrl = `https://msrajmovies.netlify.app/movie?id=${video.id}`;
+                            const videoUrl = `${baseUrl}/movie?id=${video.id}`;
                             navigator.clipboard.writeText(videoUrl)
                                 .then(() => {
                                     responseMessage.textContent = 'Share link copied to clipboard!';
@@ -121,14 +93,11 @@
                                 });
                             }
                         };
-                        const breakTag = document.createElement('br');
+
                         // Append elements to the list item
-                        listItem.appendChild(breakTag);
                         listItem.appendChild(link);
-                        listItem.appendChild(breakTag);
-                        //listItem.appendChild(videoPlay);
+                        listItem.appendChild(videoPlay);
                         listItem.appendChild(idSpan);
-                        listItem.appendChild(breakTag);
                         listItem.appendChild(copyButton);
                         listItem.appendChild(shareButton);
                         listItem.appendChild(deleteButton);

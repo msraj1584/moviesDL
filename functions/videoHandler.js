@@ -99,7 +99,7 @@ a {
             </head>
             <body>
                <h1>M S RAJ Movies</h1>
-              <div class="container">
+              <div class="video-container">
                 <h1>${videoName}</h1>
                 <video controls>
                   <source src="${videoUrl}" type="video/mp4">

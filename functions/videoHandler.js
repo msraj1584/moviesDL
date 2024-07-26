@@ -12,10 +12,10 @@ exports.handler = async (event) => {
   try {
     // Login to Seedr
     await seedr.login(username, password);
-
+    console.log('Logged in to Seedr successfully.');
     // Fetch video details from Seedr
     const videoContents = await seedr.getVideos();
-    
+    console.log('Fetched video contents from Seedr:', videoContents);
     let videoUrl = null;
     let videoName = null;
 
@@ -34,11 +34,11 @@ exports.handler = async (event) => {
       }
       if (videoUrl) break; // Exit outer loop if video is found
     }
-    
+    console.log('Video URL:', videoUrl);
+    console.log('Video Name:', videoName);
     // Return the video URL or a 404 response if not found
     if (videoUrl) {
-        // Read the HTML template
-        const templatePath = path.resolve(__dirname, 'videoTemplate.html');
+        const templatePath = path.resolve(__dirname, 'videoTemplate.html'); // Corrected path
         console.log('Template path:', templatePath);
         let html = await fs.readFile(templatePath, 'utf8');
         

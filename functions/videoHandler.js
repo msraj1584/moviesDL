@@ -35,83 +35,16 @@ exports.handler = async (event) => {
     
     // Return the video URL or a 404 response if not found
     if (videoUrl) {
+        // Read the HTML template
+        const templatePath = path.join(__dirname, '../public/videoTemplate.html');
+        let html = await fs.readFile(templatePath, 'utf8');
+        
+        // Replace placeholders with actual values
+        html = html.replace('{{videoName}}', videoName).replace('{{videoUrl}}', videoUrl);
+  
         return {
           statusCode: 200,
-          body: `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>${videoName}</title>
-              <style>
-              body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-}
-
-.video-container {
-    width: 80%;
-    max-width: 800px;
-    background: #000;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #fff;
-}
-
-h1, p {
-    text-align: center;
-}
-
-video {
-    width: 100%;
-    border-radius: 10px;
-}
-
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 10px;
-}
-
-button:hover {
-    background: #555;
-}
-a {
-    text-decoration: none;
-}
-
-              </style>
-            </head>
-            <body>
-               <h1>M S RAJ Movies</h1>
-              <div class="video-container">
-                <p>${videoName}</p>
-            <video id="videoPlayer" controls width="600">
-              <source src="${videoUrl}" type="video/mp4">
-              Your browser does not support the video tag
-            </video>
-            <a href="${videoUrl}">
-              <button>Download</button>
-            </a>
-              </div>
-            </body>
-            </html>
-          `,
+          body: html,
           headers: {
             'Content-Type': 'text/html',
           },

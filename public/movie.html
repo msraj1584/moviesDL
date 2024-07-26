@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Player</title>
+  <title>M S RAJ Movies</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>Video Player</h1>
+  <h1>M S RAJ Movies</h1>
+  <div class="video-container">           
+    <p id="videoName"></p>
   <video id="videoPlayer" controls width="600">
     <source id="videoSource" type="video/mp4">
     Your browser does not support the video tag.
   </video>
-
+  <a href="#" id="downloadLink">
+    <button>Download</button>
+  </a>
+</div>  
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Function to get query parameters
@@ -30,8 +35,13 @@
             if (data.videoUrl) {
               const videoPlayer = document.getElementById('videoPlayer');
               const videoSource = document.getElementById('videoSource');
+              const videoName = document.getElementById('videoName');
+              const downloadLink = document.getElementById('downloadLink');
               videoSource.src = data.videoUrl;
               videoPlayer.load();
+              // Update video name and download link
+              videoName.textContent = data.videoName || 'Untitled Video'; // Provide a fallback name
+              downloadLink.href = data.videoUrl;
             } else {
               console.error('Error:', data.error);
             }

@@ -3,7 +3,7 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const seedr = new Seedr();
-
+const app = express();
 const username = process.env.SEEDR_USERNAME;
 const password = process.env.SEEDR_PASSWORD;
 

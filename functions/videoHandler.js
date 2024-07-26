@@ -1,4 +1,6 @@
 const Seedr = require('seedr');
+const fs = require('fs').promises;
+const path = require('path');
 const seedr = new Seedr();
 
 const username = process.env.SEEDR_USERNAME;

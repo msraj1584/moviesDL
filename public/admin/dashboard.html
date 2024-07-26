@@ -1,14 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seedr Videos</title>
+    <script>
+      function fetchVideos() {
+    const videoList = document.getElementById('video-list');
+
+    fetch('/videos')
+        .then(response => response.json())
+        .then(videos => {
+            videoList.innerHTML = ''; // Clear existing content
+
+            if (videos.length === 0) {
+                // No videos found, display a message
+                videoList.textContent = 'No files found';
+            } else {
+                // Process and display each video
+                videos.forEach(video => {
+                    const listItem = document.createElement('li');
+
+                    // Create the link element
+                    const link = document.createElement('a');
+                    link.href = video.url;
+                    link.textContent = video.name;
+
+const videoPlay = document.createElement('video');
+
+
+// Set attributes or properties
+videoPlay.src = video.url;  // Set the source of the video
+videoPlay.controls = true;  // Add video controls like play/pause
+videoPlay.autoplay = false; // Optional: Automatically play the video
+videoPlay.loop = false;     // Optional: Loop the video
+  // Create a span for the ID
+  const idSpan = document.createElement('span');
+                    idSpan.textContent = `ID: ${video.id},FID: ${video.fid}`;
+                    idSpan.style.marginLeft = '10px';
+
+                    // Create the copy button element
+                    const copyButton = document.createElement('button');
+                    copyButton.textContent = 'Copy Link';
+                    copyButton.onclick = () => {
+                        navigator.clipboard.writeText(video.url)
+                            .then(() => {
+                                // Optionally show a message or feedback
+                                // alert('Link copied to clipboard!');
+                            })
+                            .catch(err => {
+                                console.error('Failed to copy link: ', err);
+                            });
+                    };
+                    
+                    // Create the copy button element
+                    const shareButton = document.createElement('button');
+                    shareButton.textContent = 'Share';
+                    shareButton.onclick = () => {
+                        const videoUrl = `https://msrajmovies.netlify.app/video/${video.id}`;
+                        navigator.clipboard.writeText(videoUrl)
+                            .then(() => {
+                                // Optionally show a message or feedback
+                                // alert('Link copied to clipboard!');
+                            })
+                            .catch(err => {
+                                console.error('Failed to copy link: ', err);
+                            });
+                    };
+                    
+
+                    // Create the delete button element
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = () => {
+                        if (confirm('Are you sure you want to delete this magnet link?')) {
+                           
+                            fetch('/delete-file', {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ id: video.fid }) // Send ID in the request body
+
+                            })
+
+                            .then(()=> {
+                               
+                            })
+                            .catch(error => {
+                                console.error('Error deleting magnet link:', error);
+                                alert('Error occurred while deleting the magnet link.');
+                            });
+
+                            
+                        }
+
+
+                    };
+
+            
+
+                    // Append elements to the list item
+                    listItem.appendChild(link);
+                    //listItem.appendChild(videoPlay);
+                    listItem.appendChild(idSpan);
+                    listItem.appendChild(shareButton);
+                    listItem.appendChild(deleteButton);
+                    videoList.appendChild(listItem);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching videos:', error);
+            videoList.textContent = 'Error occurred while fetching videos.';
+        });
+}
+
+
+function addMagnetLink(event) {
+    event.preventDefault();
+    const magnetLink = document.getElementById('magnet-link').value;
+
+    fetch('/add-magnet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ magnetLink })
+    })
+    .then(response => response.json())
+    .then(result => {
+        document.getElementById('magnet-link').value = ''; // Clear the input field
+        alert('Added magnet link: ' + JSON.stringify(result));
+        fetchVideos(); // Refresh the video list
+    })
+    .catch(error => {
+        console.error('Error adding magnet link:', error);
+        alert('Failed to add magnet link.');
+    });
+}
+
+window.onload = fetchVideos;
+
+    </script>
 </head>
 <body>
-  <h1>Admin Dashboard</h1>
-  <div id="admin-content"></div>
-  <script src="/admin/dashboard.js"></script>
+    <h1>Seedr Videos</h1>
+    <form onsubmit="addMagnetLink(event)">
+        <input type="text" id="magnet-link" placeholder="Enter magnet link" required>
+        <button type="submit">Add Magnet Link</button>
+    </form>
+    <ul id="video-list"></ul>
 </body>
 </html>

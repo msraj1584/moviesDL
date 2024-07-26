@@ -38,7 +38,7 @@ exports.handler = async (event) => {
     // Return the video URL or a 404 response if not found
     if (videoUrl) {
         // Read the HTML template
-        const templatePath = path.join(__dirname, '../public/videoTemplate.html');
+        const templatePath = path.resolve(__dirname, 'videoTemplate.html');
         console.log('Template path:', templatePath);
         let html = await fs.readFile(templatePath, 'utf8');
         

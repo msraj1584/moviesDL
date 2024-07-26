@@ -3,9 +3,9 @@ const seedr = new Seedr();
 
 exports.handler = async function(event, context) {
     try {
-        const username = 'msrajmovies@gmail.com';
-        const password = 'Saran@20O1';
-
+        const username = process.env.SEEDR_USERNAME;
+        const password = process.env.SEEDR_PASSWORD;
+        
         await seedr.login(username, password);
 
         const videoContents = await seedr.getVideos();

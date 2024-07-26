@@ -44,7 +44,58 @@ exports.handler = async (event) => {
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>M S RAJ Movies</title>
-              <link rel="stylesheet" href="/styles.css">
+              <style>
+              body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.video-container {
+    width: 80%;
+    max-width: 800px;
+    background: #000;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #fff;
+}
+
+h1, p {
+    text-align: center;
+}
+
+video {
+    width: 100%;
+    border-radius: 10px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #555;
+}
+a {
+    text-decoration: none;
+}
+
+              </style>
             </head>
             <body>
                <h1>M S RAJ Movies</h1>
@@ -72,7 +123,6 @@ exports.handler = async (event) => {
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>M S RAJ Movies</title>
-              <link rel="stylesheet" href="/styles.css">
             </head>
             <body>
               <h1>Video Not Found</h1>
@@ -96,7 +146,6 @@ exports.handler = async (event) => {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>M S RAJ Movies</title>
-          <link rel="stylesheet" href="/styles.css">
         </head>
         <body>
           <h1>Internal Server Error</h1>

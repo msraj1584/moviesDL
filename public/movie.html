@@ -23,7 +23,7 @@
       const videoId = getQueryParam('id'); // Get video ID from URL parameters
 
       if (videoId) {
-        fetch(`/api/handler?id=${videoId}`)
+        fetch(`/.netlify/functions/videoHandler?id=${videoId}`)
           .then(response => response.json())
           .then(data => {
             if (data.videoUrl) {

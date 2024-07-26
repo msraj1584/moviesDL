@@ -1,12 +1,28 @@
+const fs = require('fs').promises;
+const path = require('path');
 const Seedr = require('seedr');
 const seedr = new Seedr();
 
 const username = process.env.SEEDR_USERNAME;
 const password = process.env.SEEDR_PASSWORD;
 
+const getTemplate = async (templateName, replacements = {}) => {
+  try {
+    let template = await fs.readFile(path.join(__dirname, templateName), 'utf8');
+    for (const [key, value] of Object.entries(replacements)) {
+      const placeholder = `{{${key}}}`;
+      template = template.replace(new RegExp(placeholder, 'g'), value);
+    }
+    return template;
+  } catch (error) {
+    console.error('Error reading template file:', error);
+    throw error;
+  }
+};
+
 exports.handler = async (event) => {
-  //const videoId = event.path.split('/').pop(); // Extract videoId from URL
   const videoId = event.queryStringParameters.id; // Extract videoId from query parameters
+
   try {
     // Login to Seedr
     await seedr.login(username, password);
@@ -35,127 +51,30 @@ exports.handler = async (event) => {
     
     // Return the video URL or a 404 response if not found
     if (videoUrl) {
-        return {
-          statusCode: 200,
-          body: `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>M S RAJ Movies</title>
-              <style>
-              body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-}
-
-.video-container {
-    width: 80%;
-    max-width: 800px;
-    background: #000;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #fff;
-}
-
-h1, p {
-    text-align: center;
-}
-
-video {
-    width: 100%;
-    border-radius: 10px;
-}
-
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 10px;
-}
-
-button:hover {
-    background: #555;
-}
-a {
-    text-decoration: none;
-}
-
-              </style>
-            </head>
-            <body>
-               <h1>M S RAJ Movies</h1>
-              <div class="video-container">
-                <p>${videoName}</p>
-            <video id="videoPlayer" controls width="600">
-              <source src="${videoUrl}" type="video/mp4">
-              Your browser does not support the video tag
-            </video>
-            <a href="${videoUrl}">
-              <button>Download</button>
-            </a>
-              </div>
-            </body>
-            </html>
-          `,
-          headers: {
-            'Content-Type': 'text/html',
-          },
-        };
-      } else {
-        return {
-          statusCode: 404,
-          body: `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>M S RAJ Movies</title>
-            </head>
-            <body>
-              <h1>Video Not Found</h1>
-              <p>The video with the requested ID was not found.</p>
-            </body>
-            </html>
-          `,
-          headers: {
-            'Content-Type': 'text/html',
-          },
-        };
-      }
-    } catch (error) {
+      const html = await getTemplate('movie.html', { videoName, videoUrl });
+      return {
+        statusCode: 200,
+        body: html,
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      };
+    } else {
+      const html = await getTemplate('404.html');
+      return {
+        statusCode: 404,
+        body: html,
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      };
+    }
+  } catch (error) {
     console.error('Error fetching video:', error);
+    const html = await getTemplate('500.html');
     return {
       statusCode: 500,
-      body: `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>M S RAJ Movies</title>
-        </head>
-        <body>
-          <h1>Internal Server Error</h1>
-          <p>There was an error fetching the video. Please try again later.</p>
-        </body>
-        </html>
-      `,
+      body: html,
       headers: {
         'Content-Type': 'text/html',
       },

@@ -100,11 +100,14 @@ a {
             <body>
                <h1>M S RAJ Movies</h1>
               <div class="video-container">
-                <h1>${videoName}</h1>
-                <video controls>
-                  <source src="${videoUrl}" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
+                <p>${videoName}</p>
+            <video id="videoPlayer" controls width="600">
+              <source src="${videoUrl}" type="video/mp4">
+              Your browser does not support the video tag
+            </video>
+            <a href="${videoUrl}">
+              <button>Download</button>
+            </a>
               </div>
             </body>
             </html>

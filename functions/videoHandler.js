@@ -1,9 +1,6 @@
 const Seedr = require('seedr');
-const express = require('express');
-const fs = require('fs').promises;
-const path = require('path');
 const seedr = new Seedr();
-const app = express();
+
 const username = process.env.SEEDR_USERNAME;
 const password = process.env.SEEDR_PASSWORD;
 
@@ -13,10 +10,10 @@ exports.handler = async (event) => {
   try {
     // Login to Seedr
     await seedr.login(username, password);
-    console.log('Logged in to Seedr successfully.');
+
     // Fetch video details from Seedr
     const videoContents = await seedr.getVideos();
-    console.log('Fetched video contents from Seedr:', videoContents);
+    
     let videoUrl = null;
     let videoName = null;
 
@@ -35,21 +32,86 @@ exports.handler = async (event) => {
       }
       if (videoUrl) break; // Exit outer loop if video is found
     }
-    console.log('Video URL:', videoUrl);
-    console.log('Video Name:', videoName);
+    
     // Return the video URL or a 404 response if not found
     if (videoUrl) {
-        // Read the HTML template
-        const templatePath = app.use(express.static(path.join(__dirname, 'public')));
-        console.log('Template path:', templatePath);
-        let html = await fs.readFile(templatePath+'/videoTemplate.html', 'utf8');
-        
-        // Replace placeholders with actual values
-        html = html.replace('{{videoName}}', videoName).replace('{{videoUrl}}', videoUrl);
-  
         return {
           statusCode: 200,
-          body: html,
+          body: `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>M S RAJ Movies</title>
+              <style>
+              body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.video-container {
+    width: 80%;
+    max-width: 800px;
+    background: #000;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #fff;
+}
+
+h1, p {
+    text-align: center;
+}
+
+video {
+    width: 100%;
+    border-radius: 10px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #555;
+}
+a {
+    text-decoration: none;
+}
+
+              </style>
+            </head>
+            <body>
+               <h1>M S RAJ Movies</h1>
+              <div class="video-container">
+                <p>${videoName}</p>
+            <video id="videoPlayer" controls width="600">
+              <source src="${videoUrl}" type="video/mp4">
+              Your browser does not support the video tag
+            </video>
+            <a href="${videoUrl}">
+              <button>Download</button>
+            </a>
+              </div>
+            </body>
+            </html>
+          `,
           headers: {
             'Content-Type': 'text/html',
           },

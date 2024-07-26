@@ -39,9 +39,9 @@ exports.handler = async (event) => {
     // Return the video URL or a 404 response if not found
     if (videoUrl) {
         // Read the HTML template
-        const templatePath = path.join(__dirname, 'videoTemplate.html'); // Corrected path
+        const templatePath = path.join(__dirname, 'public'); // Corrected path
         console.log('Template path:', templatePath);
-        let html = await fs.readFile('/videoTemplate.html', 'utf8');
+        let html = await fs.readFile(templatePath+'/videoTemplate.html', 'utf8');
         
         // Replace placeholders with actual values
         html = html.replace('{{videoName}}', videoName).replace('{{videoUrl}}', videoUrl);

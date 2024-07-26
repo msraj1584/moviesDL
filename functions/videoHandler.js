@@ -12,13 +12,14 @@ exports.handler = async (event) => {
     const videoContents = await seedr.getVideos();
 
     let videoUrl = null;
-
+    let videoName = null;
     for (const videoArray of videoContents) {
       for (const vide of videoArray) {
         if (vide && vide.id && vide.id.toString() === videoId) {
           try {
             const downloadLink = await seedr.getFile(vide.id);
             videoUrl = downloadLink.url;
+            videoName = downloadLink.name;
             break;
           } catch (error) {
             console.error(`Failed to fetch download link for video ID ${vide.id}:`, error);

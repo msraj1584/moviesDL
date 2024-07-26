@@ -8,7 +8,7 @@
       function fetchVideos() {
     const videoList = document.getElementById('video-list');
 
-    fetch('/videos')
+    fetch('/.netlify/functions/get-videos')
         .then(response => response.json())
         .then(videos => {
             videoList.innerHTML = ''; // Clear existing content

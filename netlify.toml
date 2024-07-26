@@ -6,10 +6,6 @@
   to = "/.netlify/functions/videoHandler/:splat"
   status = 200
 [[redirects]]
-  from = "/admin/*"
-  to = "/.netlify/functions/admin/:splat"
-  status = 200
-[[redirects]]
   from = "/*"
   to = "/public/index.html"
   status = 200

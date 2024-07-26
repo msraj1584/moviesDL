@@ -1,4 +1,5 @@
 const Seedr = require('seedr');
+const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const seedr = new Seedr();
@@ -39,7 +40,7 @@ exports.handler = async (event) => {
     // Return the video URL or a 404 response if not found
     if (videoUrl) {
         // Read the HTML template
-        const templatePath = path.join(__dirname, 'public'); // Corrected path
+        const templatePath = app.use(express.static(path.join(__dirname, 'public')));
         console.log('Template path:', templatePath);
         let html = await fs.readFile(templatePath+'/videoTemplate.html', 'utf8');
         

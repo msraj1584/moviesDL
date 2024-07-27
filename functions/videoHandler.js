@@ -22,7 +22,7 @@ exports.handler = async (event) => {
             videoName = vide.name;
             break;
           } catch (error) {
-            console.error(`Failed to fetch download link for video ID ${vide.id}:`, error);
+            console.error(`Failed to fetch download link for movie ID ${vide.id}:`, error);
           }
         }
       }
@@ -38,12 +38,12 @@ exports.handler = async (event) => {
     } else {
       return {
         statusCode: 404,
-        body: JSON.stringify({ error: 'Video Not Found' }),
+        body: JSON.stringify({ error: 'Movie Not Found' }),
         headers: { 'Content-Type': 'application/json' },
       };
     }
   } catch (error) {
-    console.error('Error fetching video:', error);
+    console.error('Error fetching movie:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Internal Server Error' }),

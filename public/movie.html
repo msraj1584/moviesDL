@@ -47,7 +47,9 @@
               downloadLink.href = data.videoUrl;
             } else {
               const videoName = document.getElementById('videoName');
+              const videoPlayer = document.getElementById('videoPlayer');
               videoName.innerHTML = 'Movie Not Found :(';
+              videoPlayer.poster='/img/404.jpg';
               console.error('Error:', data.error);
             }
            // document.title=data.videoName;

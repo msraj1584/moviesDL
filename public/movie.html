@@ -47,7 +47,7 @@
               downloadLink.href = data.videoUrl;
             } else {
               const videoName = document.getElementById('videoName');
-              videoName.textContent = 'Movie Not Found :( <br/> Contact msraj';
+              videoName.innerHTML = 'Movie Not Found :( <br/> Contact msraj';
               console.error('Error:', data.error);
             }
            // document.title=data.videoName;

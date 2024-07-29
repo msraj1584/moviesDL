@@ -62,7 +62,8 @@
               videoName.innerHTML = 'Movie Not Found :(';
               videoPlayer.poster = '/img/404.jpg';
               console.error('Error:', data.error);
-
+              
+              videoContainer.style.display = 'block';
               // Hide loader
               loader.style.display = 'none';
             }
@@ -76,12 +77,8 @@
       } else {
         console.error('Video ID not found in query parameters');
 
-        videoName.innerHTML = 'Movie Not Found :(';
-              videoPlayer.poster = '/img/404.jpg';
-              console.error('Error:', data.error);
-
-              // Hide loader
-              loader.style.display = 'none';
+        // Hide loader
+        loader.style.display = 'none';
       }
     });
   </script>

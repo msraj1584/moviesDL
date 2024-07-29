@@ -8,6 +8,7 @@
 </head>
 <body>
   <h1>M S RAJ Movies</h1>
+  <div class="loader"></div>
   <div class="video-container">           
     <p id="videoName"></p>
   <video id="videoPlayer" controls width="600">
@@ -24,7 +25,17 @@
   <a href="mailto:admin@msraj.in" style="text-decoration: none;">&#128231; admin@msraj.in</a>
 </div>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+       document.addEventListener('DOMContentLoaded', () => {
+      const loader = document.querySelector('.loader');
+      const videoContainer = document.querySelector('.video-container');
+      const videoPlayer = document.getElementById('videoPlayer');
+      const videoSource = document.getElementById('videoSource');
+      const videoName = document.getElementById('videoName');
+      const downloadLink = document.getElementById('downloadLink');
+
+      // Show loader initially
+      loader.style.display = 'block';
+
       // Function to get query parameters
       function getQueryParam(name) {
         const params = new URLSearchParams(window.location.search);
@@ -38,29 +49,35 @@
           .then(response => response.json())
           .then(data => {
             if (data.videoUrl) {
-              const videoPlayer = document.getElementById('videoPlayer');
-              const videoSource = document.getElementById('videoSource');
-              const videoName = document.getElementById('videoName');
-              const downloadLink = document.getElementById('downloadLink');
               videoSource.src = data.videoUrl;
               videoPlayer.load();
               // Update video name and download link
               videoName.textContent = data.videoName || 'Untitled Video'; // Provide a fallback name
               downloadLink.href = data.videoUrl;
+
+              // Hide loader and show video
+              loader.style.display = 'none';
+              videoContainer.style.display = 'block';
             } else {
-              const videoName = document.getElementById('videoName');
-              const videoPlayer = document.getElementById('videoPlayer');
               videoName.innerHTML = 'Movie Not Found :(';
-              videoPlayer.poster='/img/404.jpg';
+              videoPlayer.poster = '/img/404.jpg';
               console.error('Error:', data.error);
+
+              // Hide loader
+              loader.style.display = 'none';
             }
-           // document.title=data.videoName;
           })
           .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
+
+            // Hide loader
+            loader.style.display = 'none';
           });
       } else {
         console.error('Video ID not found in query parameters');
+
+        // Hide loader
+        loader.style.display = 'none';
       }
     });
   </script>

@@ -70,8 +70,11 @@
                                 })
                                 .then(response => response.json())
     .then(data => {
-        responseMessage.textContent.textContent = data.result.filecode;
+        if (data.result && data.result.filecode) {
+            responseMessage.textContent = data.result.filecode;
+        } 
         console.log('File Info:', data);
+        console.log('File Code:',data.result.filecode)
     })
     .catch(error => {
         console.error('Error:', error);

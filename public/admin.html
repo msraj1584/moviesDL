@@ -67,12 +67,14 @@
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ url: video.url })
                                 })
-                                .then(response => response.json())  // Handling the response
+                                .then(response => response.json())
     .then(data => {
-        console.log('Upload Successful:', data);  // Log success message
+        console.log('File Info:', data);
+        alert('Upload and File Info Retrieved Successfully!');
     })
     .catch(error => {
-        console.error('Upload Error:', error);  // Log error message
+        console.error('Error:', error);
+        alert('Error during upload or file info retrieval.');
     });
                         };
                         // Create the Share button

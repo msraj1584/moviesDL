@@ -60,7 +60,8 @@
 
                         const luluStreamButton = document.createElement('button');
                         luluStreamButton.textContent = 'LULU STREAM';
-
+                        const luluImageButton = document.createElement('button');
+                        luluImageButton.textContent = 'File Code will appear here';
                         luluStreamButton.onclick = () => {
                             fetch('/.netlify/functions/luluStream-upload', {
                                     method: 'POST',
@@ -70,12 +71,20 @@
                                 .then(response => response.json())
     .then(data => {
         console.log('File Info:', data);
-        alert('Upload and File Info Retrieved Successfully!');
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error during upload or file info retrieval.');
     });
+                        };
+                        // GET LULU FILE IMAGE LINK
+                       // Update luluImageButton with the file code from the response
+        if (data.result && data.result.filecode) {
+            luluImageButton.textContent = data.result.filecode;
+        } else {
+            luluImageButton.textContent = 'File code not available';
+        }
+                        luluStreamButton.onclick = () => {
+
                         };
                         // Create the Share button
                         const shareButton = document.createElement('button');
@@ -121,6 +130,7 @@
                         listItem.appendChild(idSpan);
                         listItem.appendChild(copyButton);
                         listItem.appendChild(luluStreamButton);
+                        listItem.appendChild(luluImageButton);
                         listItem.appendChild(shareButton);
                         listItem.appendChild(deleteButton);
                         videoList.appendChild(listItem);

@@ -56,6 +56,25 @@
                                 });
                         };
 
+                        // Create LULU STREAM UPLOAD
+
+                        const luluStreamButton = document.createElement('button');
+                        luluStreamButton.textContent = 'LULU STREAM';
+
+                        luluStreamButton.onclick = () => {
+                            fetch('/.netlify/functions/luluStream-upload', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ url: video.url })
+                                })
+                                .then(response => response.json())  // Handling the response
+    .then(data => {
+        console.log('Upload Successful:', data);  // Log success message
+    })
+    .catch(error => {
+        console.error('Upload Error:', error);  // Log error message
+    });
+                        };
                         // Create the Share button
                         const shareButton = document.createElement('button');
                         shareButton.textContent = 'Share';
@@ -72,6 +91,7 @@
                                 });
                         };
 
+                        
                         // Create the Delete button
                         const deleteButton = document.createElement('button');
                         deleteButton.textContent = 'Delete';

@@ -16,40 +16,24 @@ exports.handler = async function(event, context) {
         }
         const apiKey = process.env.LULU_STREAM_API;
         const luluStreamApiUrl = `https://lulustream.com/api/upload/url?key=${apiKey}&url=${encodeURIComponent(url)}`;
-        
-        // First request: Upload video and get filecode
-        const uploadResponse = await fetch(luluStreamApiUrl, {
+
+        const response = await fetch(luluStreamApiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         });
 
-        if (!uploadResponse.ok) {
-            throw new Error(`Lulustream API upload request failed with status ${uploadResponse.status}`);
+        if (!response.ok) {
+            throw new Error(`Lulustream API request failed with status ${response.status}`);
         }
 
         const uploadData = await uploadResponse.json();
         const { filecode } = uploadData.result;
-
         if (!filecode) {
             throw new Error('File code not found in upload response');
         }
-
-        // Second request: Get file info
-        const fileInfoUrl = `https://lulustream.com/api/file/info?key=${apiKey}&file_code=${filecode}`;
-        const fileInfoResponse = await fetch(fileInfoUrl, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (!fileInfoResponse.ok) {
-            throw new Error(`Lulustream API file info request failed with status ${fileInfoResponse.status}`);
-        }
-
-        const fileInfoData = await fileInfoResponse.json();
-
         return {
             statusCode: 200,
-            body: JSON.stringify(fileInfoData),
+            body: JSON.stringify(uploadData),
         };
     } catch (error) {
         return {

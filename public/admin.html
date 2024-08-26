@@ -56,12 +56,12 @@
                                 });
                         };
 
+                        const luluImageButton = document.createElement('button');
+                        luluImageButton.textContent = 'File Code will appear here';
                         // Create LULU STREAM UPLOAD
 
                         const luluStreamButton = document.createElement('button');
                         luluStreamButton.textContent = 'LULU STREAM';
-                        const luluImageButton = document.createElement('button');
-                        luluImageButton.textContent = 'File Code will appear here';
                         luluStreamButton.onclick = () => {
                             fetch('/.netlify/functions/luluStream-upload', {
                                     method: 'POST',
@@ -80,9 +80,7 @@
                         // GET LULU FILE IMAGE LINK
                        // Update luluImageButton with the file code from the response
        
-                        luluStreamButton.onclick = () => {
-
-                        };
+                      
                         // Create the Share button
                         const shareButton = document.createElement('button');
                         shareButton.textContent = 'Share';

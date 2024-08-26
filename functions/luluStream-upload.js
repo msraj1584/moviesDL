@@ -17,13 +17,13 @@ exports.handler = async function(event, context) {
         const apiKey = process.env.LULU_STREAM_API;
         const luluStreamApiUrl = `https://lulustream.com/api/upload/url?key=${apiKey}&url=${encodeURIComponent(url)}`;
 
-        const response = await fetch(luluStreamApiUrl, {
+        const uploadResponse = await fetch(luluStreamApiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         });
 
-        if (!response.ok) {
-            throw new Error(`Lulustream API request failed with status ${response.status}`);
+        if (!uploadResponse.ok) {
+            throw new Error(`Lulustream API request failed with status ${uploadResponse.status}`);
         }
 
         const uploadData = await uploadResponse.json();

@@ -70,6 +70,11 @@
                                 })
                                 .then(response => response.json())
     .then(data => {
+        if (data.result && data.result.filecode) {
+            luluImageButton.textContent = data.result.filecode;
+        } else {
+            luluImageButton.textContent = 'File code not available';
+        }
         console.log('File Info:', data);
     })
     .catch(error => {
@@ -78,7 +83,7 @@
                         };
                         // GET LULU FILE IMAGE LINK
                        // Update luluImageButton with the file code from the response
-     
+       
                         luluStreamButton.onclick = () => {
 
                         };

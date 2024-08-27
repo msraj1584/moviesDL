@@ -41,8 +41,12 @@ exports.handler = async function(event, context) {
 
         const database = client.db('msrajmoviesdldb'); // Replace with your database name
         const collection = database.collection('msrajmoviesdlcol'); // Replace with your collection name
-
-        const insertResult = await collection.insertOne({ id, filecode });
+        const timestamp = new Date(); // Current timestamp
+        const insertResult = await collection.insertOne({
+            id,
+            filecode,
+            createdAt: timestamp, // Add the timestamp here
+        });
 
         return {
             statusCode: 200,

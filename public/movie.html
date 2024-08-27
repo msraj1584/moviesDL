@@ -55,6 +55,7 @@
         fetch(`/.netlify/functions/videoHandler?id=${videoId}`)
           .then(response => response.json())
           .then(data => {
+            console.log('File Code:',data.filecode);
             if (data.videoUrl) {
               videoSource.src = data.videoUrl;
               videoPlayer.load();

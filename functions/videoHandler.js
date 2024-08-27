@@ -16,9 +16,11 @@ await client.connect();
 const database = client.db('msrajmoviesdldb'); // Replace with your database name
 const collection = database.collection('msrajmoviesdlcol'); // Replace with your collection name
 
-// Fetch the filecode from MongoDB using the videoId
-const videoRecord = await collection.findOne({ id: videoId });
-
+ // Fetch the latest filecode from MongoDB using the videoId and sort by timestamp
+ const videoRecord = await collection.findOne(
+  { id: videoId }, // Match the id
+  { sort: { createdAt: -1 } } // Sort by createdAt in descending order to get the latest
+);
 if (!videoRecord || !videoRecord.filecode) {
   return {
     statusCode: 404,

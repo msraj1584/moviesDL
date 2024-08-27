@@ -53,10 +53,27 @@ const filecode = videoRecord.filecode;
       if (videoUrl) break;
     }
 
+    const apiKey = process.env.LULU_STREAM_API;
+    const luluStreamApiUrl = `https://lulustream.com/api/file/info?key=${apiKey}&file_code=${filecode}`;
+
+    const uploadResponse = await fetch(luluStreamApiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!uploadResponse.ok) {
+        throw new Error(`Lulustream API request failed with status ${uploadResponse.status}`);
+    }
+
+    const uploadData = await uploadResponse.json();
+    const { player_img } = uploadData.result;
+
+
+
     if (videoUrl) {
       return {
         statusCode: 200,
-        body: JSON.stringify({ videoUrl,videoName,filecode }),
+        body: JSON.stringify({ videoUrl,videoName,filecode,player_img }),
         headers: { 'Content-Type': 'application/json' },
       };
     } else {

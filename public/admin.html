@@ -60,8 +60,6 @@
 
                         const luluStreamButton = document.createElement('button');
                         luluStreamButton.textContent = 'LULU STREAM';
-                        const luluImageButton = document.createElement('button');
-                        luluImageButton.textContent = 'File Code will appear here';
                         luluStreamButton.onclick = () => {
                             fetch('/.netlify/functions/luluStream-upload', {
                                     method: 'POST',
@@ -72,6 +70,7 @@
     .then(data => {
         if (data.result && data.result.filecode) {
             responseMessage.textContent = data.result.filecode;
+            setTimeout(() => { responseMessage.textContent = ''; }, 3000);
         } 
         console.log('File Info:', data);
         console.log('File Code:',data.result.filecode)
@@ -128,7 +127,6 @@
                         listItem.appendChild(idSpan);
                         listItem.appendChild(copyButton);
                         listItem.appendChild(luluStreamButton);
-                        listItem.appendChild(luluImageButton);
                         listItem.appendChild(shareButton);
                         listItem.appendChild(deleteButton);
                         videoList.appendChild(listItem);

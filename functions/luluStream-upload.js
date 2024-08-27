@@ -1,3 +1,4 @@
+
 exports.handler = async function(event, context) {
     if (event.httpMethod !== 'POST') {
         return {
@@ -7,7 +8,7 @@ exports.handler = async function(event, context) {
     }
     try {
         const { url } = JSON.parse(event.body);
-        
+        const {id} =JSON.parse(event.body);
         if (!url) {
             return {
                 statusCode: 400,
@@ -33,7 +34,7 @@ exports.handler = async function(event, context) {
         }
         return {
             statusCode: 200,
-            body: JSON.stringify(filecode),
+            body: JSON.stringify(uploadData),
         };
     } catch (error) {
         return {

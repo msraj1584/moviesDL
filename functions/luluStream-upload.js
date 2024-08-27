@@ -1,4 +1,4 @@
-
+const { MongoClient } = require('mongodb');
 exports.handler = async function(event, context) {
     if (event.httpMethod !== 'POST') {
         return {
@@ -6,6 +6,7 @@ exports.handler = async function(event, context) {
             body: JSON.stringify({ error: 'Method Not Allowed' }),
         };
     }
+    let client;
     try {
         const { url } = JSON.parse(event.body);
         const {id} =JSON.parse(event.body);
@@ -32,16 +33,29 @@ exports.handler = async function(event, context) {
         if (!filecode) {
             throw new Error('File code not found in upload response');
         }
+        // MongoDB Atlas connection
+        const uri = process.env.MONGODB_URI; // Your MongoDB connection string
+        client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+
+        const database = client.db('msrajmoviesdldb'); // Replace with your database name
+        const collection = database.collection('msrajmoviesdlcol'); // Replace with your collection name
+
+        const insertResult = await collection.insertOne({ id, filecode });
+
         return {
             statusCode: 200,
-            body: JSON.stringify(uploadData),
+            body: JSON.stringify(insertResult),
         };
     } catch (error) {
         return {
             statusCode: 500,
             body: JSON.stringify({ message: error.message }),
         };
+    } finally {
+        if (client) {
+            await client.close();
+        }
     }
-
-
 };

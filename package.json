@@ -5,6 +5,7 @@
     "express": "^4.19.2",
     "firebase": "^10.13.0",
     "firebase-admin": "^12.4.0",
+    "mongodb": "^6.8.0",
     "seedr": "^1.1.2"
   }
 }

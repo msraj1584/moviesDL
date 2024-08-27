@@ -66,14 +66,14 @@ const filecode = videoRecord.filecode;
     }
 
     const uploadData = await uploadResponse.json();
-    const { player_img } = uploadData.result;
+    const  player_img  = uploadData.result[0].player_img;
 
 
 
     if (videoUrl) {
       return {
         statusCode: 200,
-        body: JSON.stringify({ videoUrl,videoName,filecode,uploadData,player_img }),
+        body: JSON.stringify({ videoUrl,videoName,filecode,player_img }),
         headers: { 'Content-Type': 'application/json' },
       };
     } else {

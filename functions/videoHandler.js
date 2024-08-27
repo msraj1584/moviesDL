@@ -17,8 +17,9 @@ const database = client.db('msrajmoviesdldb'); // Replace with your database nam
 const collection = database.collection('msrajmoviesdlcol'); // Replace with your collection name
 
  // Fetch the latest filecode from MongoDB using the videoId and sort by timestamp
+ const videoId1 = Number(event.queryStringParameters.id); // If id is stored as a number
  const videoRecord = await collection.findOne(
-  { id: videoId }, // Match the id
+  { id: videoId1 }, // Match the id
   { sort: { createdAt: -1 } } // Sort by createdAt in descending order to get the latest
 );
 if (!videoRecord || !videoRecord.filecode) {

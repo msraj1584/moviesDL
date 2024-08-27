@@ -63,7 +63,7 @@
               // Update video name and download link
               videoName.textContent = data.videoName || 'Untitled Video'; // Provide a fallback name
               downloadLink.href = data.videoUrl;
-
+              videoPlayer.poster=data.player_img;
               // Hide loader and show video
               loader.style.display = 'none';
               videoContainer.style.display = 'block';

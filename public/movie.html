@@ -56,7 +56,9 @@
           .then(response => response.json())
           .then(data => {
             console.log('File Code:',data.filecode);
-            console.log('ImageLink:',data.uploadData);
+            console.log('ImageLink:',data.player_img);
+            console.log('upload data:',data.uploadData);
+            console.log('result:',data.uploadData.result);
             if (data.videoUrl) {
               videoSource.src = data.videoUrl;
               videoPlayer.load();

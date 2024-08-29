@@ -42,12 +42,17 @@ exports.handler = async function(event, context) {
         const database = client.db('msrajmoviesdldb'); // Replace with your database name
         const collection = database.collection('msrajmoviesdlcol'); // Replace with your collection name
         const timestamp = new Date(); // Current timestamp
-        const insertResult = await collection.insertOne({
-            id,
-            filecode,
-            createdAt: timestamp, // Add the timestamp here
-        });
-
+        // Update the document if it exists, or insert a new one if it doesn't
+        const insertResult = await collection.updateOne(
+        { id: id }, // Match the id
+        { 
+          $set: {
+            filecode: filecode,
+            createdAt: timestamp, // Set the timestamp here
+          }
+        },
+        { upsert: true } // Insert if no document matches the id
+      );
         return {
             statusCode: 200,
             body: JSON.stringify(insertResult),

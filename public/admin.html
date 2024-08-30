@@ -68,11 +68,11 @@
                                 })
                                 .then(response => response.json())
     .then(data => {
-        if (data.result && data.result.filecode) {
+        if (data.filecode && data.filecode) {
             responseMessage.textContent = 'File Code Generated';
             setTimeout(() => { responseMessage.textContent = ''; }, 3000);
         } 
-        console.log('File Code:', data.result.filecode);
+        console.log('File Code:', data.filecode);
     })
     .catch(error => {
         console.error('Error:', error);

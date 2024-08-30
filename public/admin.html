@@ -69,7 +69,7 @@
                                 .then(response => response.json())
     .then(data => {
         if (data.filecode && data.filecode) {
-            responseMessage.textContent = 'File Code Generated';
+            responseMessage.textContent = data.filecode;
             setTimeout(() => { responseMessage.textContent = ''; }, 3000);
         } 
         console.log('File Code:', data.filecode);

@@ -55,7 +55,7 @@ exports.handler = async function(event, context) {
       );
         return {
             statusCode: 200,
-            body: JSON.stringify(insertResult,filecode),
+            body: JSON.stringify({insertResult:insertResult,filecode: filecode}),
         };
     } catch (error) {
         return {

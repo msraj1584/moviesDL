@@ -25,12 +25,11 @@
   <a href="#" id="downloadLink">
     <button>Download</button>
   </a>
-  <div class="sch-container">
-  <h4>Screenshots</h4>
-  <img id="screenshot" src="/img/404.jpg" style="width: 100%; height: auto;">
-</div>
 </div>  
-
+<div class="sch-container">
+  <h4>Screenshots</h4>
+  <img id="screenshot" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="width: 100%; height: auto;">
+</div>
 <div style="margin-top: 10px; text-align: center; ">
  <a href="https://msraj.in" style="text-decoration: none; color: #000;">website &#128073; msraj.in  &#127760;</a>
   <br>
@@ -81,6 +80,7 @@
               videoContainer.style.display = 'block';
             } else {
               videoName.innerHTML = 'Movie Not Found :(';
+              screenshot.src='/img/404.jpg';
               videoPlayer.poster = '/img/404.jpg';
               console.error('Error:', data.error);
 

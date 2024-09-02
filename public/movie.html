@@ -28,7 +28,7 @@
 </div>  
 <div class="sch-container">
   <h4>Screenshots</h4>
-  <img src="/img/404.jpg">
+  <img id="screenshot" src="/img/404.jpg">
 </div>
 <div style="margin-top: 10px; text-align: center; ">
  <a href="https://msraj.in" style="text-decoration: none; color: #000;">website &#128073; msraj.in  &#127760;</a>
@@ -43,7 +43,7 @@
       const videoSource = document.getElementById('videoSource');
       const videoName = document.getElementById('videoName');
       const downloadLink = document.getElementById('downloadLink');
-
+      const screenshot= document.getElementById('screenshot');  
       // Show loader initially
       loader.style.display = 'block';
 
@@ -69,6 +69,7 @@
               downloadLink.href = data.videoUrl;
               if (data.player_img !== undefined && data.player_img !== null) {
     videoPlayer.poster = data.player_img;
+    screenshot.src=data.player_img;
 }
               // Hide loader and show video
               loader.style.display = 'none';

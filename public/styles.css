@@ -49,9 +49,10 @@ a {
     text-decoration: none;
 }
 
-.sch-container{
+/* .sch-container{
     display: none;
-}
+} */
+ 
 /* HTML: <div class="loader"></div> */
 .loader {
     display: none; /* Hidden by default */

@@ -28,7 +28,7 @@
 </div>  
 <div class="sch-container">
   <h4>Screenshots</h4>
-  <img id="screenshot" src="/img/404.jpg">
+  <img id="screenshot" src="/img/404.jpg" style="width: 100%; height: auto;">
 </div>
 <div style="margin-top: 10px; text-align: center; ">
  <a href="https://msraj.in" style="text-decoration: none; color: #000;">website &#128073; msraj.in  &#127760;</a>
@@ -43,7 +43,10 @@
       const videoSource = document.getElementById('videoSource');
       const videoName = document.getElementById('videoName');
       const downloadLink = document.getElementById('downloadLink');
+      const screenshotContainer= document.getElementById('sch-container');  
       const screenshot= document.getElementById('screenshot');  
+
+      screenshotContainer.style.display = 'none';
       // Show loader initially
       loader.style.display = 'block';
 
@@ -68,7 +71,8 @@
               videoName.textContent = data.videoName || 'Untitled Video'; // Provide a fallback name
               downloadLink.href = data.videoUrl;
               if (data.player_img !== undefined && data.player_img !== null) {
-    videoPlayer.poster = data.player_img;
+    //videoPlayer.poster = data.player_img;
+    screenshotContainer.style.display = 'block';
     screenshot.src=data.player_img;
 }
               // Hide loader and show video

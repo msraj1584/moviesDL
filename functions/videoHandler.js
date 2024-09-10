@@ -23,11 +23,11 @@ const collection = database.collection('msrajmoviesdlcol'); // Replace with your
   { sort: { createdAt: -1 } } // Sort by createdAt in descending order to get the latest
 );
 if (!videoRecord || !videoRecord.filecode) {
-  return {
-    statusCode: 404,
-    body: JSON.stringify({ error: 'Movie Not Found in MongoDB' }),
-    headers: { 'Content-Type': 'application/json' },
-  };
+  // return {
+  //   statusCode: 404,
+  //   body: JSON.stringify({ error: 'Movie Not Found in MongoDB' }),
+  //   headers: { 'Content-Type': 'application/json' },
+  // };
 }
 
 const filecode = videoRecord.filecode;

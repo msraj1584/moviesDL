@@ -45,23 +45,28 @@ const collection = database.collection('msrajmoviesdlcol'); // Replace with your
 
 //const filecode = videoRecord.filecode;
 
+let player_img;
+const apiKey = process.env.LULU_STREAM_API;
+const luluStreamApiUrl = `https://lulustream.com/api/file/info?key=${apiKey}&file_code=${filecode}`;
 
-// const apiKey = process.env.LULU_STREAM_API;
-// const luluStreamApiUrl = `https://lulustream.com/api/file/info?key=${apiKey}&file_code=${filecode}`;
+const uploadResponse = await fetch(luluStreamApiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+});
 
-// const uploadResponse = await fetch(luluStreamApiUrl, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-// });
+if (!uploadResponse.ok) {
+    throw new Error(`Lulustream API request failed with status ${uploadResponse.status}`);
+}
 
-// if (!uploadResponse.ok) {
-//     throw new Error(`Lulustream API request failed with status ${uploadResponse.status}`);
-// }
-
-// const uploadData = await uploadResponse.json();
-// const  player_img  = uploadData.result[0].player_img;
-
-let player_img="";
+const uploadData = await uploadResponse.json();
+if (uploadData.status === 400) {
+  // Handle the error case
+} else if (Array.isArray(uploadData.result) && uploadData.result.length > 0) {
+  // Handle the success case
+   player_img = uploadData.result[0].player_img;
+} else {
+  // Handle unexpected cases
+}
 
     await seedr.login(username, password);
     const videoContents = await seedr.getVideos();

@@ -22,17 +22,15 @@ const collection = database.collection('msrajmoviesdlcol'); // Replace with your
   { id: videoId1 }, // Match the id
   { sort: { createdAt: -1 } } // Sort by createdAt in descending order to get the latest
 );
-if (!videoRecord || !videoRecord.filecode) {
-  // return {
-  //   statusCode: 404,
-  //   body: JSON.stringify({ error: 'Movie Not Found in MongoDB' }),
-  //   headers: { 'Content-Type': 'application/json' },
-  // };
-}
-
-let filecode = videoRecord.filecode;
-if (!filecode) {
-filecode='';
+let filecode ="";
+if (!videoRecord) {
+  console.log("Movie not found.");
+} else if (!videoRecord.filecode) {
+  console.log("Filecode is undefined.");
+} else {
+  filecode = videoRecord.filecode;
+  console.log("Filecode:", filecode);
+  // You can use the filecode here as needed
 }
 
     await seedr.login(username, password);

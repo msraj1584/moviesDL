@@ -60,6 +60,7 @@ if (!uploadResponse.ok) {
 
 const uploadData = await uploadResponse.json();
 if (uploadData.status === 400) {
+  player_img = '';
   // Handle the error case
 } else if (Array.isArray(uploadData.result) && uploadData.result.length > 0) {
   // Handle the success case

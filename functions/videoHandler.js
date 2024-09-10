@@ -30,7 +30,10 @@ if (!videoRecord || !videoRecord.filecode) {
   // };
 }
 
-const filecode = videoRecord.filecode;
+let filecode = videoRecord.filecode;
+if (!filecode) {
+filecode='';
+}
 
     await seedr.login(username, password);
     const videoContents = await seedr.getVideos();

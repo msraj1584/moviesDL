@@ -20,6 +20,7 @@ const collection = database.collection('msrajmoviesdlcol'); // Replace with your
  const videoId1 = Number(event.queryStringParameters.id); // If id is stored as a number
  
  let videoRecord;
+ let filecode;
  try {
    videoRecord = await collection.findOne(
      { id: videoId1 },
@@ -34,16 +35,33 @@ const collection = database.collection('msrajmoviesdlcol'); // Replace with your
  }
 
  if (!videoRecord || !videoRecord.filecode) {
-   return {
-     statusCode: 404,
-     body: JSON.stringify({ error: 'Movie Not Found in MongoDB' }),
-     headers: { 'Content-Type': 'application/json' },
-   };
+  filecode='';
+ }
+ else{
+  filecode = videoRecord.filecode;
  }
 
- const filecode = videoRecord.filecode;
+
 
 //const filecode = videoRecord.filecode;
+
+
+const apiKey = process.env.LULU_STREAM_API;
+const luluStreamApiUrl = `https://lulustream.com/api/file/info?key=${apiKey}&file_code=${filecode}`;
+
+const uploadResponse = await fetch(luluStreamApiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+});
+
+if (!uploadResponse.ok) {
+    throw new Error(`Lulustream API request failed with status ${uploadResponse.status}`);
+}
+
+const uploadData = await uploadResponse.json();
+const  player_img  = uploadData.result[0].player_img;
+
+
 
     await seedr.login(username, password);
     const videoContents = await seedr.getVideos();
@@ -65,23 +83,6 @@ const collection = database.collection('msrajmoviesdlcol'); // Replace with your
       }
       if (videoUrl) break;
     }
-
-    const apiKey = process.env.LULU_STREAM_API;
-    const luluStreamApiUrl = `https://lulustream.com/api/file/info?key=${apiKey}&file_code=${filecode}`;
-
-    const uploadResponse = await fetch(luluStreamApiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (!uploadResponse.ok) {
-        throw new Error(`Lulustream API request failed with status ${uploadResponse.status}`);
-    }
-
-    const uploadData = await uploadResponse.json();
-    const  player_img  = uploadData.result[0].player_img;
-
-
 
     if (videoUrl) {
       return {

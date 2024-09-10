@@ -78,7 +78,7 @@ const filecode1 = videoRecord.filecode;
     if (videoUrl) {
       return {
         statusCode: 200,
-        body: JSON.stringify({ videoUrl,videoName,filecode,player_img }),
+        body: JSON.stringify({ videoUrl,videoName }),
         headers: { 'Content-Type': 'application/json' },
       };
     } else {

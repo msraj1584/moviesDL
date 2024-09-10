@@ -42,7 +42,7 @@ const collection = database.collection('msrajmoviesdlcol'); // Replace with your
  }
  return {
   statusCode: 500,
-  body: JSON.stringify({ filecode }),
+  body: JSON.stringify({ error: filecode }),
 };
 
 

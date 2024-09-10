@@ -40,7 +40,10 @@ const collection = database.collection('msrajmoviesdlcol'); // Replace with your
  else{
   filecode = videoRecord.filecode;
  }
-
+ return {
+  statusCode: 500,
+  body: JSON.stringify({ filecode }),
+};
 
 
 //const filecode = videoRecord.filecode;

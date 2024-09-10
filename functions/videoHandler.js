@@ -29,11 +29,12 @@ if (!videoRecord || !videoRecord.filecode) {
   //   headers: { 'Content-Type': 'application/json' },
   // };
 }
-console.log(videoRecord.filecode);
+
 let filecode='' ;
 if (videoRecord.filecode !== undefined && videoRecord.filecode !== null) {
 filecode = videoRecord.filecode;
 }
+filecode='sa';
     await seedr.login(username, password);
     const videoContents = await seedr.getVideos();
 

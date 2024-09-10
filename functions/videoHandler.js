@@ -18,19 +18,32 @@ const collection = database.collection('msrajmoviesdlcol'); // Replace with your
 
  // Fetch the latest filecode from MongoDB using the videoId and sort by timestamp
  const videoId1 = Number(event.queryStringParameters.id); // If id is stored as a number
- const videoRecord = await collection.findOne(
-  { id: videoId1 }, // Match the id
-  { sort: { createdAt: -1 } } // Sort by createdAt in descending order to get the latest
-);
-if (!videoRecord || !videoRecord.filecode) {
-  return {
-    statusCode: 404,
-    body: JSON.stringify({ error: 'Movie Not Found in MongoDB' }),
-    headers: { 'Content-Type': 'application/json' },
-  };
-}
+ 
+ let videoRecord;
+ try {
+   videoRecord = await collection.findOne(
+     { id: videoId1 },
+     { sort: { createdAt: -1 } }
+   );
+ } catch (err) {
+   console.error("Error fetching video record:", err);
+   return {
+     statusCode: 500,
+     body: JSON.stringify({ error: 'Internal Server Error - Failed to Fetch Video Record' }),
+   };
+ }
 
-const filecode = videoRecord.filecode;
+ if (!videoRecord || !videoRecord.filecode) {
+   return {
+     statusCode: 404,
+     body: JSON.stringify({ error: 'Movie Not Found in MongoDB' }),
+     headers: { 'Content-Type': 'application/json' },
+   };
+ }
+
+ const filecode = videoRecord.filecode;
+
+//const filecode = videoRecord.filecode;
 
     await seedr.login(username, password);
     const videoContents = await seedr.getVideos();

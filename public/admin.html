@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M S RAJ Movies Admin</title>
     <link rel="stylesheet" href="/admin-styles.css">
+    <style>
+        /* Hide content initially */
+        #content {
+          display: none;
+        }
+      </style>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script> <!-- Include CryptoJS -->
     <script>
         async function fetchVideos() {
             const videoList = document.getElementById('video-list');
@@ -177,4 +184,25 @@
     <ul id="video-list"></ul>
 </div>
 </body>
+<script>
+    // Store the hashed version of the password
+    const hashedPassword = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd22ad3f6379587f7fc"; // Hash for "password"
+
+    function checkPassword() {
+      const userInput = document.getElementById("passwordInput").value;
+      const hashedInput = CryptoJS.SHA256(userInput).toString();
+
+      if (hashedInput === hashedPassword) {
+        document.getElementById("passwordPrompt").style.display = "none";
+        document.getElementById("content").style.display = "block"; // Show the main content
+      } else {
+        document.getElementById("errorMessage").style.display = "block";
+      }
+    }
+
+    // Ensure main content is hidden if JavaScript is disabled
+    window.onload = function() {
+      document.getElementById("content").style.display = "none";
+    };
+  </script>
 </html>

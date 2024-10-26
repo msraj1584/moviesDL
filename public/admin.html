@@ -162,6 +162,12 @@
     </script>
 </head>
 <body>
+    <div id="passwordPrompt">
+        <label for="passwordInput">Enter Password:</label>
+        <input type="password" id="passwordInput">
+        <button onclick="checkPassword()">Submit</button>
+      </div>
+      <div id="content">
     <h1>Seedr Videos</h1>
     <form onsubmit="addMagnetLink(event)">
         <input type="text" id="magnet-link" placeholder="Enter magnet link" required>
@@ -169,5 +175,6 @@
     </form>
     <div id="response-message" class="response-message"></div>
     <ul id="video-list"></ul>
+</div>
 </body>
 </html>

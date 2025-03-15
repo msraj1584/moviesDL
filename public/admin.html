@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,8 +20,8 @@
                     // No videos found, display a message
                     videoList.textContent = 'No files found';
                 } else {
-                      // Get the base URL dynamically
-                const baseUrl = window.location.origin;
+                    // Get the base URL dynamically
+                    const baseUrl = window.location.origin;
                     // Process and display each video
                     videos.forEach(video => {
                         const listItem = document.createElement('li');
@@ -62,26 +63,26 @@
                         luluStreamButton.textContent = 'LULU STREAM';
                         luluStreamButton.onclick = () => {
                             fetch('/.netlify/functions/luluStream-upload', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ url: video.url,id:video.id })
-                                })
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ url: video.url, id: video.id })
+                            })
                                 .then(response => response.json())
-    .then(data => {
-        if (data.filecode && data.filecode) {
-            responseMessage.textContent = data.filecode;
-            setTimeout(() => { responseMessage.textContent = ''; }, 3000);
-        } 
-        console.log('File Code:', data.filecode);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+                                .then(data => {
+                                    if (data.filecode && data.filecode) {
+                                        responseMessage.textContent = data.filecode;
+                                        setTimeout(() => { responseMessage.textContent = ''; }, 3000);
+                                    }
+                                    console.log('File Code:', data.filecode);
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
                         };
                         // GET LULU FILE IMAGE LINK
-                       // Update luluImageButton with the file code from the response
-       
-                       
+                        // Update luluImageButton with the file code from the response
+
+
                         // Create the Share button
                         const shareButton = document.createElement('button');
                         shareButton.textContent = 'Share';
@@ -98,7 +99,7 @@
                                 });
                         };
 
-                        
+
                         // Create the Delete button
                         const deleteButton = document.createElement('button');
                         deleteButton.textContent = 'Delete';
@@ -109,38 +110,40 @@
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ id: video.fid })
                                 })
-                                .then(() => {
-                                    responseMessage.textContent = 'Video deleted successfully!';
-                                    setTimeout(() => { responseMessage.textContent = ''; fetchVideos(); }, 3000);
-                                })
-                                .catch(error => {
-                                    console.error('Error deleting video:', error);
-                                    alert('Error occurred while deleting the video.');
-                                });
+                                    .then(() => {
+                                        responseMessage.textContent = 'Video deleted successfully!';
+                                        setTimeout(() => { responseMessage.textContent = ''; fetchVideos(); }, 3000);
+                                    })
+                                    .catch(error => {
+                                        console.error('Error deleting video:', error);
+                                        alert('Error occurred while deleting the video.');
+                                    });
                             }
                         };
 
-                        
+
                         // Create the Rename button
                         const renameButton = document.createElement('button');
                         renameButton.textContent = 'Rename';
                         renameButton.onclick = () => {
-                            if (confirm('Are you sure you want to rename this video?')) {
-                                fetch('/.netlify/functions/rename-file', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ id: video.id })
-                                })
+                            const newName = prompt('Enter new name for the video:');
+                            if (!newName) return; // Exit if user cancels or enters an empty name
+
+                            fetch('/.netlify/functions/rename-file', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ id: video.id, newName: newName }) // Include new name
+                            })
                                 .then(() => {
                                     responseMessage.textContent = 'Video renamed successfully!';
                                     setTimeout(() => { responseMessage.textContent = ''; fetchVideos(); }, 3000);
                                 })
                                 .catch(error => {
-                                    console.error('Error deleting video:', error);
-                                    alert('Error occurred while deleting the video.');
+                                    console.error('Error renaming video:', error);
+                                    alert('Error occurred while renaming the video.');
                                 });
-                            }
                         };
+
 
                         // Append elements to the list item
                         listItem.appendChild(link);
@@ -177,33 +180,34 @@
             } catch (error) {
                 console.error('Error adding magnet link:', error);
                 alert('Failed to add magnet link.');
-                
+
             }
         }
         async function renameFile() {
-        const newFileName = prompt('Enter the new file name (e.g., admin-dashboard.html):');
-        if (newFileName) {
-            try {
-                const response = await fetch('/.netlify/functions/rename-file', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ oldFileName: 'admin.html', newFileName })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    alert('File renamed successfully!');
-                } else {
-                    alert('Failed to rename file: ' + result.message);
+            const newFileName = prompt('Enter the new file name (e.g., admin-dashboard.html):');
+            if (newFileName) {
+                try {
+                    const response = await fetch('/.netlify/functions/rename-file', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ oldFileName: 'admin.html', newFileName })
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        alert('File renamed successfully!');
+                    } else {
+                        alert('Failed to rename file: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Error renaming file:', error);
+                    alert('An error occurred while renaming the file.');
                 }
-            } catch (error) {
-                console.error('Error renaming file:', error);
-                alert('An error occurred while renaming the file.');
             }
         }
-    }
         window.onload = fetchVideos;
     </script>
 </head>
+
 <body>
     <h1>Seedr Videos</h1>
     <form onsubmit="addMagnetLink(event)">
@@ -213,4 +217,5 @@
     <div id="response-message" class="response-message"></div>
     <ul id="video-list"></ul>
 </body>
+
 </html>

@@ -22,7 +22,7 @@ exports.handler = async function(event, context) {
         const password = process.env.SEEDR_PASSWORD;
 
         await seedr.login(username, password);
-        await seedr.rename(id,"testing_act1.mkv");
+        await seedr.rename(id,newName);
 
         return {
             statusCode: 200,

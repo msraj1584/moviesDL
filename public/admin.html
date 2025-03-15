@@ -126,7 +126,7 @@
                         const renameButton = document.createElement('button');
                         renameButton.textContent = 'Rename';
                         renameButton.onclick = () => {
-                            const newName = prompt('Enter new name for the video:');
+                            const newName = prompt('Enter new name for the video:',video.name);
                             if (!newName) return; // Exit if user cancels or enters an empty name
 
                             fetch('/.netlify/functions/rename-file', {

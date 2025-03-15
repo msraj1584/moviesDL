@@ -126,7 +126,7 @@
                         const renameButton = document.createElement('button');
                         renameButton.textContent = 'Rename';
                         renameButton.onclick = () => {
-                            const newName = prompt('Enter new name for the video:',video.name);
+                            const newName = prompt('Enter new name for the video:', video.name);
                             if (!newName) return; // Exit if user cancels or enters an empty name
 
                             fetch('/.netlify/functions/rename-file', {
@@ -145,6 +145,33 @@
                         };
 
 
+                        // Create the Remove Domain button
+                        const removeDomainButton = document.createElement('button');
+                        removeDomainButton.textContent = 'Remove Domain';
+                        removeDomainButton.onclick = () => {
+                            // Use regex to remove the domain part (anything before the first " - " including domains)
+                            const newName = video.name.replace(/^[^ -]+(?:\.[^ -]+)* - /, '');
+
+                            if (!newName || newName === video.name) {
+                                alert('No domain found to remove.');
+                                return;
+                            }
+
+                            fetch('/.netlify/functions/rename-file', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ id: video.id, newName }) // Send the cleaned name
+                            })
+                                .then(() => {
+                                    responseMessage.textContent = 'Domain removed and video renamed successfully!';
+                                    setTimeout(() => { responseMessage.textContent = ''; fetchVideos(); }, 3000);
+                                })
+                                .catch(error => {
+                                    console.error('Error renaming video:', error);
+                                    alert('Error occurred while renaming the video.');
+                                });
+                        };
+
                         // Append elements to the list item
                         listItem.appendChild(link);
                         //listItem.appendChild(videoPlay);
@@ -154,6 +181,7 @@
                         listItem.appendChild(shareButton);
                         listItem.appendChild(deleteButton);
                         listItem.appendChild(renameButton);
+                        listItem.appendChild(removeDomainButton);
                         videoList.appendChild(listItem);
                     });
                 }

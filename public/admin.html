@@ -131,7 +131,7 @@
                                 fetch('/.netlify/functions/rename-file', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ id: video.fid })
+                                    body: JSON.stringify({ id: video.id })
                                 })
                                 .then(() => {
                                     responseMessage.textContent = 'Video renamed successfully!';

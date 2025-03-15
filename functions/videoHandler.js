@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-const Seedr = require('seedr');
+const Seedr = require('../seedr');
 const seedr = new Seedr();
 const mongoUri = process.env.MONGODB_URI; // MongoDB connection string
 

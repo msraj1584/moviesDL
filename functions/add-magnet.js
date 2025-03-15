@@ -1,4 +1,4 @@
-const Seedr = require('seedr');
+const Seedr = require('../seedr');
 const seedr = new Seedr();
 
 exports.handler = async function(event, context) {

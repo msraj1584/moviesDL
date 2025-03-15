@@ -1,7 +1,7 @@
 const Seedr = require('../seedr');
 const seedr = new Seedr();
 
-exports.handler = async function(event, context) {
+exports.handler = async function (event, context) {
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -10,11 +10,12 @@ exports.handler = async function(event, context) {
     }
 
     try {
-        const { id } = JSON.parse(event.body);
-        if (!id) {
+        const { id, newName } = JSON.parse(event.body);
+
+        if (!id || !newName) {
             return {
                 statusCode: 400,
-                body: JSON.stringify({ error: 'ID is required' }),
+                body: JSON.stringify({ error: 'ID and newName are required' }),
             };
         }
 
@@ -22,7 +23,7 @@ exports.handler = async function(event, context) {
         const password = process.env.SEEDR_PASSWORD;
 
         await seedr.login(username, password);
-        await seedr.rename(id,newName);
+        await seedr.rename(id, newName);
 
         return {
             statusCode: 200,

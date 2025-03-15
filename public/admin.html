@@ -121,6 +121,26 @@
                         };
 
                         
+                        // Create the Rename button
+                        const renameButton = document.createElement('button');
+                        renameButton.textContent = 'Rename';
+                        renameButton.onclick = () => {
+                            if (confirm('Are you sure you want to rename this video?')) {
+                                fetch('/.netlify/functions/rename-file', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ id: video.id })
+                                })
+                                .then(() => {
+                                    responseMessage.textContent = 'Video renamed successfully!';
+                                    setTimeout(() => { responseMessage.textContent = ''; fetchVideos(); }, 3000);
+                                })
+                                .catch(error => {
+                                    console.error('Error deleting video:', error);
+                                    alert('Error occurred while deleting the video.');
+                                });
+                            }
+                        };
 
                         // Append elements to the list item
                         listItem.appendChild(link);
@@ -130,6 +150,7 @@
                         listItem.appendChild(luluStreamButton);
                         listItem.appendChild(shareButton);
                         listItem.appendChild(deleteButton);
+                        listItem.appendChild(renameButton);
                         videoList.appendChild(listItem);
                     });
                 }

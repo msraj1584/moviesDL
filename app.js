@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 3000;
-const Seedr = require('seedr');
+const Seedr = require('./seedr');
 const seedr = new Seedr();
 
 const username = process.env.SEEDR_USERNAME;

@@ -22,6 +22,7 @@ exports.handler = async function(event, context) {
         const password = process.env.SEEDR_PASSWORD;
 
         await seedr.login(username, password);
+        console.log(id);
         await seedr.rename(id,"test");
 
         return {

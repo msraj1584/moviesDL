@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M S RAJ Movies Admin</title>
     <link rel="stylesheet" href="/admin-styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        crossorigin="anonymous">
     <script>
         async function fetchVideos() {
             const videoList = document.getElementById('video-list');
-            const responseMessage = document.getElementById('response-message');
 
             try {
                 const response = await fetch('/.netlify/functions/get-videos');
@@ -45,22 +46,22 @@
 
                         // Create the Copy Link button
                         const copyButton = document.createElement('button');
-                        copyButton.textContent = 'Copy Link';
+                        copyButton.innerHTML = '<i class="bi bi-link-45deg"></i> Copy Link';
                         copyButton.onclick = () => {
                             navigator.clipboard.writeText(video.url)
                                 .then(() => {
-                                    responseMessage.textContent = 'Link copied to clipboard!';
-                                    setTimeout(() => { responseMessage.textContent = ''; }, 3000);
+                                    showAlert('Link copied to clipboard!', 'success');
                                 })
                                 .catch(err => {
                                     console.error('Failed to copy link:', err);
+                                    showAlert('Failed to copy link.', 'danger');
                                 });
                         };
 
-                        // Create LULU STREAM UPLOAD
+                        // Create LULU STREAM UPLOAD for THUMBNAIL
 
                         const luluStreamButton = document.createElement('button');
-                        luluStreamButton.textContent = 'LULU STREAM';
+                        luluStreamButton.innerHTML = '<i class="bi bi-images"></i> Thumbnail';
                         luluStreamButton.onclick = () => {
                             fetch('/.netlify/functions/luluStream-upload', {
                                 method: 'POST',
@@ -69,54 +70,48 @@
                             })
                                 .then(response => response.json())
                                 .then(data => {
-                                    if (data.filecode && data.filecode) {
-                                        responseMessage.textContent = data.filecode;
-                                        setTimeout(() => { responseMessage.textContent = ''; }, 3000);
+                                    if (data.filecode) {
+                                        showAlert(`Thumnail ID: ${data.filecode}`, 'success');
                                     }
-                                    console.log('File Code:', data.filecode);
                                 })
                                 .catch(error => {
-                                    console.error('Error:', error);
+                                    showAlert(`Error: ${error}`, 'danger');
                                 });
                         };
-                        // GET LULU FILE IMAGE LINK
-                        // Update luluImageButton with the file code from the response
-
 
                         // Create the Share button
                         const shareButton = document.createElement('button');
-                        shareButton.textContent = 'Share';
+                        shareButton.innerHTML = '<i class="bi bi-send"></i> Share';
                         shareButton.onclick = () => {
                             //const videoUrl = `https://msrajmovies.netlify.app/movie?id=${video.id}`;
                             const videoUrl = `🎬 ${video.name} \r\n \r\n*_click below link to download_*👇🏻\r\n${baseUrl}/movie?id=${video.id} `;
                             navigator.clipboard.writeText(videoUrl)
                                 .then(() => {
-                                    responseMessage.textContent = 'Share link copied to clipboard!';
-                                    setTimeout(() => { responseMessage.textContent = ''; }, 3000);
+                                    showAlert('Share Link copied to clipboard!', 'success');
                                 })
                                 .catch(err => {
-                                    console.error('Failed to copy share link:', err);
+                                    showAlert('Failed to CopyLink!', 'danger');
+
                                 });
                         };
 
 
                         // Create the Delete button
                         const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'Delete';
+                        deleteButton.innerHTML = '<i class="bi bi-trash"></i> Delete';
                         deleteButton.onclick = () => {
                             if (confirm('Are you sure you want to delete this video?')) {
                                 fetch('/.netlify/functions/delete-file', {
                                     method: 'DELETE',
                                     headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ id: video.fid })
+                                    body: JSON.stringify({ fid: video.fid, id: video.id })
                                 })
                                     .then(() => {
-                                        responseMessage.textContent = 'Video deleted successfully!';
-                                        setTimeout(() => { responseMessage.textContent = ''; fetchVideos(); }, 3000);
+                                        showAlert('Video deleted successfully!', 'success');
+                                        fetchVideos(); // Refresh the video list
                                     })
                                     .catch(error => {
-                                        console.error('Error deleting video:', error);
-                                        alert('Error occurred while deleting the video.');
+                                        showAlert('Error occurred while deleting the video.', 'danger');
                                     });
                             }
                         };
@@ -124,7 +119,7 @@
 
                         // Create the Rename button
                         const renameButton = document.createElement('button');
-                        renameButton.textContent = 'Rename';
+                        renameButton.innerHTML = '<i class="bi bi-pencil-square"></i> Rename';
                         renameButton.onclick = () => {
                             const newName = prompt('Enter new name for the video:', video.name);
                             if (!newName) return; // Exit if user cancels or enters an empty name
@@ -135,25 +130,23 @@
                                 body: JSON.stringify({ id: video.id, newName: newName }) // Include new name
                             })
                                 .then(() => {
-                                    responseMessage.textContent = 'Video renamed successfully!';
-                                    setTimeout(() => { responseMessage.textContent = ''; fetchVideos(); }, 3000);
+                                    showAlert('Video renamed Successfully.', 'success');
                                 })
                                 .catch(error => {
-                                    console.error('Error renaming video:', error);
-                                    alert('Error occurred while renaming the video.');
+                                    showAlert('Error occurred while renaming the video.', 'danger');
                                 });
                         };
-
+                       
 
                         // Create the Remove Domain button
                         const removeDomainButton = document.createElement('button');
-                        removeDomainButton.textContent = 'Remove Domain';
+                        removeDomainButton.innerHTML = '<i class="bi bi-eraser"></i> Domain';
                         removeDomainButton.onclick = () => {
                             // Use regex to remove the domain part (anything before the first " - " including domains)
                             const newName = video.name.replace(/^[^ -]+(?:\.[^ -]+)* - /, '');
 
                             if (!newName || newName === video.name) {
-                                alert('No domain found to remove.');
+                                showAlert('No Domain found to remove!.', 'danger');
                                 return;
                             }
 
@@ -163,38 +156,33 @@
                                 body: JSON.stringify({ id: video.id, newName }) // Send the cleaned name
                             })
                                 .then(() => {
-                                    responseMessage.textContent = 'Domain removed and video renamed successfully!';
-                                    setTimeout(() => { responseMessage.textContent = ''; fetchVideos(); }, 3000);
+                                    showAlert('Domain removed and video renamed successfully!', 'success');
+                                    fetchVideos(); // Refresh the video list
                                 })
                                 .catch(error => {
                                     console.error('Error renaming video:', error);
-                                    alert('Error occurred while renaming the video.');
+                                    showAlert('Error occurred while Domain remove!.', 'danger');
                                 });
                         };
-// Create a container for the buttons
-const buttonGroup = document.createElement('div');
-buttonGroup.className = 'button-group';
+
 
                         // Append elements to the list item
                         listItem.appendChild(link);
                         //listItem.appendChild(videoPlay);
-                         listItem.appendChild(idSpan);
-                        // listItem.appendChild(copyButton);
-                        // listItem.appendChild(luluStreamButton);
-                        // listItem.appendChild(shareButton);
-                        // listItem.appendChild(deleteButton);
-                        // listItem.appendChild(renameButton);
-                        // listItem.appendChild(removeDomainButton);
-                       
+                        listItem.appendChild(idSpan);
+
+                        // Create a container for the buttons
+                        const buttonGroup = document.createElement('div');
+                        buttonGroup.className = 'button-group';
                         // Append buttons to the button group
-buttonGroup.appendChild(copyButton);
-buttonGroup.appendChild(luluStreamButton);
-buttonGroup.appendChild(shareButton);
-buttonGroup.appendChild(deleteButton);
-buttonGroup.appendChild(renameButton);
-buttonGroup.appendChild(removeDomainButton);
-                       // Append the button group to the list item
-listItem.appendChild(buttonGroup);
+                        buttonGroup.appendChild(copyButton);
+                        buttonGroup.appendChild(luluStreamButton);
+                        buttonGroup.appendChild(shareButton);
+                        buttonGroup.appendChild(deleteButton);
+                        buttonGroup.appendChild(renameButton);
+                        buttonGroup.appendChild(removeDomainButton);
+                        // Append the button group to the list item
+                        listItem.appendChild(buttonGroup);
                         videoList.appendChild(listItem);
                     });
                 }
@@ -246,6 +234,39 @@ listItem.appendChild(buttonGroup);
             }
         }
         window.onload = fetchVideos;
+
+
+
+    </script>
+
+    <script>
+        function createButton(iconClass, text, onClickHandler) {
+    const button = document.createElement('button');
+    button.innerHTML = `<i class="${iconClass}"></i> ${text}`;
+    button.onclick = onClickHandler;
+    return button;
+}
+        // Function to show alert
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+        <span>${message}</span>
+        <button onclick="this.parentElement.remove()">×</button>
+    `;
+            alertContainer.appendChild(alert);
+            alertContainer.style.display = 'block';
+
+            // Automatically remove the alert after 3 seconds
+            setTimeout(() => {
+                alert.remove();
+                if (alertContainer.children.length === 0) {
+                    alertContainer.style.display = 'none';
+                }
+            }, 3000);
+        }
+
     </script>
 </head>
 
@@ -255,8 +276,11 @@ listItem.appendChild(buttonGroup);
         <input type="text" id="magnet-link" placeholder="Enter magnet link" required>
         <button type="submit">Add Magnet Link</button>
     </form>
-    <div id="response-message" class="response-message"></div>
+
+    <div id="alert-container" class="alert-container"></div>
     <ul id="video-list"></ul>
+
 </body>
+
 
 </html>

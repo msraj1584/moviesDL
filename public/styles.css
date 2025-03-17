@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,9 +33,10 @@ button {
     display: block;
     width: 100%;
     padding: 10px;
-    background: #333;
-    color: #fff;
+    background: #ffffff;
+    color: #000000;
     border: none;
+    font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
@@ -48,7 +49,22 @@ button:hover {
 a {
     text-decoration: none;
 }
-
+i{
+    color: #000;
+    font-size: larger;
+}
+.Contact {
+    margin-left: -45%;
+  margin-top: 50px; 
+  text-align: left;
+}
+.Contact p{
+    text-align: left;
+}
+.Contact a{
+   color: #1879f8;
+    text-decoration: none;
+}
 /* .sch-container{
     display: none;
 } */

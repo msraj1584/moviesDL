@@ -33,12 +33,6 @@
                         link.textContent = video.name;
                         link.target = '_blank'; // Open link in a new tab
 
-                        const videoPlay = document.createElement('video');
-                        videoPlay.src = video.url;
-                        videoPlay.controls = true;
-                        videoPlay.autoplay = false;
-                        videoPlay.loop = false;
-                        videoPlay.className = 'video-player';
 
                         // Create a span for the ID
                         const idSpan = document.createElement('div');
@@ -168,7 +162,6 @@
 
                         // Append elements to the list item
                         listItem.appendChild(link);
-                        //listItem.appendChild(videoPlay);
                         listItem.appendChild(idSpan);
 
                         // Create a container for the buttons

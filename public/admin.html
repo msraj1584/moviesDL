@@ -88,7 +88,7 @@
                         shareButton.textContent = 'Share';
                         shareButton.onclick = () => {
                             //const videoUrl = `https://msrajmovies.netlify.app/movie?id=${video.id}`;
-                            const videoUrl = `🎬 ${video.name} \r\n*click below link to download👇🏻*\r\n${baseUrl}/movie?id=${video.id} `;
+                            const videoUrl = `🎬 ${video.name} \r\n \r\n*_click below link to download_*👇🏻\r\n${baseUrl}/movie?id=${video.id} `;
                             navigator.clipboard.writeText(videoUrl)
                                 .then(() => {
                                     responseMessage.textContent = 'Share link copied to clipboard!';
@@ -171,17 +171,30 @@
                                     alert('Error occurred while renaming the video.');
                                 });
                         };
+// Create a container for the buttons
+const buttonGroup = document.createElement('div');
+buttonGroup.className = 'button-group';
 
                         // Append elements to the list item
                         listItem.appendChild(link);
                         //listItem.appendChild(videoPlay);
-                        listItem.appendChild(idSpan);
-                        listItem.appendChild(copyButton);
-                        listItem.appendChild(luluStreamButton);
-                        listItem.appendChild(shareButton);
-                        listItem.appendChild(deleteButton);
-                        listItem.appendChild(renameButton);
-                        listItem.appendChild(removeDomainButton);
+                         listItem.appendChild(idSpan);
+                        // listItem.appendChild(copyButton);
+                        // listItem.appendChild(luluStreamButton);
+                        // listItem.appendChild(shareButton);
+                        // listItem.appendChild(deleteButton);
+                        // listItem.appendChild(renameButton);
+                        // listItem.appendChild(removeDomainButton);
+                       
+                        // Append buttons to the button group
+buttonGroup.appendChild(copyButton);
+buttonGroup.appendChild(luluStreamButton);
+buttonGroup.appendChild(shareButton);
+buttonGroup.appendChild(deleteButton);
+buttonGroup.appendChild(renameButton);
+buttonGroup.appendChild(removeDomainButton);
+                       // Append the button group to the list item
+listItem.appendChild(buttonGroup);
                         videoList.appendChild(listItem);
                     });
                 }
@@ -237,7 +250,7 @@
 </head>
 
 <body>
-    <h1>Seedr Videos</h1>
+    <h1>M S RAJ Movies Admin</h1>
     <form onsubmit="addMagnetLink(event)">
         <input type="text" id="magnet-link" placeholder="Enter magnet link" required>
         <button type="submit">Add Magnet Link</button>

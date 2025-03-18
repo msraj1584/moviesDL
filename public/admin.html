@@ -125,6 +125,7 @@
                             })
                                 .then(() => {
                                     showAlert('Video renamed Successfully.', 'success');
+                                    fetchVideos(); // Refresh the video list
                                 })
                                 .catch(error => {
                                     showAlert('Error occurred while renaming the video.', 'danger');

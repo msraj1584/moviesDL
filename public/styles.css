@@ -1,12 +1,15 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 body {
-    /* font-family: Arial, sans-serif; */
+    font-family: "Poppins", sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background-color: #edfaef;
 }
 
 .video-container {
@@ -33,7 +36,7 @@ button {
     display: block;
     width: 100%;
     padding: 10px;
-    background: #ffffff;
+    background: #4DD670;
     color: #000000;
     border: none;
     font-weight: bold;
@@ -44,7 +47,7 @@ button {
 }
 
 button:hover {
-    background: #555;
+    background: #017a4c;
 }
 a {
     text-decoration: none;
@@ -62,21 +65,48 @@ i{
     text-align: left;
 }
 .Contact a{
-   color: #1879f8;
+   color: #017a4c;
     text-decoration: none;
+    font-weight: bolder;
+
 }
+img {
+    width:300px;
+    height: auto;
+    display: block;
+    margin: 10px ;
+  }
 /* .sch-container{
     display: none;
 } */
- 
+.corner-image {
+    position: absolute;
+    width: 100px; /* Adjust as needed */
+}
+.top-left {
+    top: 0px;
+    left: 0px;
+}
+.top-right {
+    top: 0px;
+    right: 0px;
+}
+.bottom-left {
+    bottom: 0px;
+    left: 0px;
+}
+.bottom-right {
+    bottom: 0px;
+    right: 0px;
+}
 /* HTML: <div class="loader"></div> */
 .loader {
     display: none; /* Hidden by default */
     width: 120px;
     height: 20px;
     background:
-     linear-gradient(#000 0 0) 0/0% no-repeat
-     #ddd;
+     linear-gradient(#017a4c 0 0) 0/0% no-repeat
+     #b4fde1;
     animation: l1 2s infinite linear;
   }
   @keyframes l1 {

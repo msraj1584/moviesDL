@@ -25,6 +25,13 @@
 
 <body>
   <h1>🎬 M S RAJ movies</h1>
+  <img src="img/pic1.png" alt="Top Left" class="corner-image top-left">
+  <img src="img/pic2.png" alt="Top Right" class="corner-image top-right">
+  <img src="img/pic3.png" alt="Bottom Left" class="corner-image bottom-left">
+  <img src="img/pic4.png" alt="Bottom Right" class="corner-image bottom-right">
+   <!-- <div class="img-container">
+    <img src="img/og_img.png" alt="M S RAJ movies" />
+    </div> -->
   <div class="loader" aria-label="Loading..."></div>
   <div class="video-container" style="display: none;">
     <p id="videoName" aria-live="polite"></p>
@@ -33,13 +40,13 @@
       Your browser does not support the video tag.
     </video>
     <a href="#" id="downloadLink">
-      <button> Download <i class="bi bi-download"></i></button>
+      <button id="dwnbtn"> Download <i class="bi bi-download"></i></button>
     </a>
   </div>
 
   <div class="Contact">
     
-    <p><strong>Contact Me</strong>
+    <p><strong>Contact me</strong>
     </br><a href="https://msraj.in"><i class="bi bi-person-bounding-box"></i> msraj.in </a>
       </br>
       Send your feedback <br />
@@ -56,6 +63,7 @@
       const videoSource = document.getElementById('videoSource');
       const videoName = document.getElementById('videoName');
       const downloadLink = document.getElementById('downloadLink');
+      const dwnbtn = document.getElementById('dwnbtn');
 
       // Show loader initially
       loader.style.display = 'block';
@@ -91,11 +99,13 @@
             } else {
               // Handle video not found
               videoName.innerHTML = 'Movie Not Found :(';
-              videoPlayer.poster = '/img/404.jpg';
+              videoPlayer.poster = '/img/404.png';
+              videoPlayer.controls = false;
               console.error('Error:', data.error);
 
               videoContainer.style.display = 'block';
               loader.style.display = 'none';
+              dwnbtn.style.display = 'none';
             }
           })
           .catch(error => {
